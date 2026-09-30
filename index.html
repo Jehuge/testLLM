@@ -6,73 +6,87 @@
   <meta name="theme-color" content="#f3f2eb">
   <title>6.1-sol-不同思考等级鹈鹕测试</title>
   <style>
-    :root { color-scheme: light; font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: #254844; background: #f3f2eb; }
+    :root { color-scheme: light; font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: #254844; background: #e6e8df; }
     * { box-sizing: border-box; }
-    body { margin: 0; }
-    main { max-width: 1600px; margin: auto; padding: 64px 40px 32px; }
-    .eyebrow { margin: 0 0 18px; color: #68847a; font-size: 12px; letter-spacing: .2em; }
-    h1 { margin: 0; font-size: clamp(26px, 3.4vw, 48px); font-weight: 650; letter-spacing: -.04em; line-height: 1.3; }
-    .subtitle { margin: 18px 0 28px; color: #657b72; font-size: clamp(15px, 1.7vw, 21px); line-height: 1.6; }
-    nav { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 40px; }
-    nav a { text-decoration: none; color: #315951; border: 1px solid #d2dcd2; border-radius: 99px; padding: 9px 17px; font-size: 13px; background: #fafaf4; }
-    nav a:hover { background: #e1ebe1; }
-    a:focus-visible { outline: 3px solid #cf7853; outline-offset: 4px; }
-    .tests { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 26px; }
-    .test { min-width: 0; overflow: hidden; border: 1px solid #d9dfd3; border-radius: 22px; background: #fafaf5; scroll-margin-top: 24px; }
-    .test-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 21px 24px; border-bottom: 1px solid #e0e4d9; }
-    .test-heading { display: flex; align-items: center; gap: 12px; }
-    .number { color: #849388; font-size: 12px; font-variant-numeric: tabular-nums; }
-    h2 { margin: 0; font-size: 19px; font-weight: 600; }
-    h2 span { margin-left: 8px; font-size: 12px; color: #6d8075; font-weight: 400; }
-    .original { flex-shrink: 0; color: #688176; font-size: 12px; text-underline-offset: 4px; }
-    iframe { display: block; border: 0; width: 100%; height: 570px; background: #f4f2e8; }
-    .note { margin: 28px 0 0; color: #7b8b7f; font-size: 12px; line-height: 1.8; text-align: center; }
-    @media (max-width: 1000px) {
-      main { padding: 40px 20px 24px; }
-      .tests { gap: 18px; }
-    }
+    body { margin: 0; min-height: 100svh; display: grid; place-items: center; }
+    main { width: min(100vw, 133.333svh); height: min(100svh, 75vw); padding: 14px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 10px; background: #f3f2eb; }
+    h1 { margin: 0 0 8px; font-size: clamp(18px, 2.7vw, 38px); font-weight: 750; letter-spacing: -.03em; line-height: 1.2; text-align: center; }
+    .subtitle { margin: 0; padding: 9px 12px; border-radius: 10px; background: #254844; color: #fff7de; font-size: clamp(16px, 2.5vw, 34px); font-weight: 750; line-height: 1.25; text-align: center; }
+    .subtitle strong { color: #ffd276; }
+    a:focus-visible { outline: 3px solid #cf7853; outline-offset: 2px; }
+    .tests { min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; }
+    .test { min-width: 0; min-height: 0; overflow: hidden; border: 1px solid #d5ddcf; border-radius: 12px; background: #f4f2e8; display: grid; grid-template-rows: auto minmax(0, 1fr); }
+    .test-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 12px; border-bottom: 1px solid #dfe4d7; background: #fafaf5; }
+    .test-heading { display: flex; align-items: center; gap: 8px; }
+    .number { color: #849388; font-size: 11px; font-variant-numeric: tabular-nums; }
+    h2 { margin: 0; font-size: 17px; font-weight: 700; }
+    h2 span { margin-left: 6px; font-size: 11px; color: #6d8075; font-weight: 400; }
+    .original { flex-shrink: 0; color: #688176; font-size: 11px; text-underline-offset: 3px; }
+    .stage { position: relative; min-height: 0; overflow: hidden; }
+    .crop { position: absolute; top: 50%; left: 50%; overflow: hidden; transform: translate(-50%, -50%); }
+    iframe { position: absolute; top: 0; left: 0; display: block; border: 0; width: 1000px; height: 850px; transform-origin: top left; background: #f4f2e8; }
+    .note { margin: 0; color: #7b8b7f; font-size: 10px; line-height: 1.2; text-align: center; }
     @media (max-width: 600px) {
-      main { padding: 30px 12px 24px; }
-      nav { margin-bottom: 26px; }
-      nav a { padding: 8px 14px; }
-      .tests { gap: 10px; }
-      .test-header { padding: 14px 10px; flex-wrap: wrap; gap: 8px; }
-      .test-heading { gap: 8px; }
-      h2 { font-size: 17px; }
-      h2 span { display: block; margin: 4px 0 0; font-size: 11px; }
-      iframe { height: 420px; }
+      main { padding: 6px; gap: 5px; }
+      h1 { margin-bottom: 4px; }
+      .subtitle { padding: 5px; border-radius: 6px; }
+      .tests { gap: 5px; }
+      .test-header { padding: 4px 6px; }
+      .number, h2 span { display: none; }
+      h2 { font-size: 12px; }
+      .original { font-size: 9px; }
+      .note { font-size: 8px; }
     }
   </style>
 </head>
 <body>
   <main>
     <header>
-      <p class="eyebrow">6.1-SOL / PELICAN TEST</p>
       <h1>6.1-sol-不同思考等级鹈鹕测试</h1>
-      <p class="subtitle">6Astra五分之一的价格无线逼近 Astra</p>
-      <nav aria-label="跳转到不同思考等级">
-        <a href="#mid">Mid</a><a href="#high">High</a><a href="#xhigh">Xhigh</a><a href="#max">Max</a>
-      </nav>
+      <p class="subtitle">6Astra<strong>五分之一的价格</strong>无线逼近 Astra</p>
     </header>
     <div class="tests">
       <section class="test" id="mid" aria-labelledby="mid-title">
         <header class="test-header"><div class="test-heading"><span class="number">01</span><h2 id="mid-title">Mid <span>中思考等级测试</span></h2></div><a class="original" href="6.1sol-mid.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <iframe src="6.1sol-mid.html" title="6.1-sol Mid 中思考等级鹈鹕测试"></iframe>
+        <div class="stage"><div class="crop"><iframe src="6.1sol-mid.html" title="6.1-sol Mid 中思考等级鹈鹕测试"></iframe></div></div>
       </section>
       <section class="test" id="high" aria-labelledby="high-title">
         <header class="test-header"><div class="test-heading"><span class="number">02</span><h2 id="high-title">High <span>高思考等级测试</span></h2></div><a class="original" href="6.1sol-high.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <iframe src="6.1sol-high.html" title="6.1-sol High 高思考等级鹈鹕测试"></iframe>
+        <div class="stage"><div class="crop"><iframe src="6.1sol-high.html" title="6.1-sol High 高思考等级鹈鹕测试"></iframe></div></div>
       </section>
       <section class="test" id="xhigh" aria-labelledby="xhigh-title">
         <header class="test-header"><div class="test-heading"><span class="number">03</span><h2 id="xhigh-title">Xhigh <span>超高思考等级测试</span></h2></div><a class="original" href="6.1sol-xhigh.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <iframe src="6.1sol-xhigh.html" title="6.1-sol Xhigh 超高思考等级鹈鹕测试"></iframe>
+        <div class="stage"><div class="crop"><iframe src="6.1sol-xhigh.html" title="6.1-sol Xhigh 超高思考等级鹈鹕测试"></iframe></div></div>
       </section>
       <section class="test" id="max" aria-labelledby="max-title">
         <header class="test-header"><div class="test-heading"><span class="number">04</span><h2 id="max-title">Max <span>最高思考等级测试</span></h2></div><a class="original" href="6.1sol-max.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <iframe src="6.1sol-max.html" title="6.1-sol Max 最高思考等级鹈鹕测试"></iframe>
+        <div class="stage"><div class="crop"><iframe src="6.1sol-max.html" title="6.1-sol Max 最高思考等级鹈鹕测试"></iframe></div></div>
       </section>
     </div>
-    <p class="note">四个思考等级 · 原始测试完整展示 · 每份测试可独立操作</p>
+    <p class="note">四个思考等级 · 原始动画画面对比</p>
   </main>
+  <script>
+    // 仅在汇总页裁切、缩放嵌入窗口，不修改原始测试文档。
+    function fitScene(stage) {
+      const frame = stage.querySelector('iframe');
+      const scene = frame.contentDocument?.querySelector('.scene, .picture');
+      if (!scene) return;
+      const rect = scene.getBoundingClientRect();
+      const scale = Math.min(stage.clientWidth / rect.width, stage.clientHeight / rect.height);
+      const crop = stage.querySelector('.crop');
+      crop.style.width = `${rect.width * scale}px`;
+      crop.style.height = `${rect.height * scale}px`;
+      frame.style.transform = `scale(${scale})`;
+      frame.style.left = `${-rect.left * scale}px`;
+      frame.style.top = `${-rect.top * scale}px`;
+    }
+    const observer = new ResizeObserver(entries => {
+      entries.forEach(({ target }) => fitScene(target));
+    });
+    document.querySelectorAll('.stage').forEach(stage => {
+      stage.querySelector('iframe').addEventListener('load', () => fitScene(stage));
+      observer.observe(stage);
+    });
+  </script>
 </body>
 </html>
