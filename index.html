@@ -26,23 +26,21 @@
     h2 span { margin-left: 8px; font-size: 12px; color: #6d8075; font-weight: 400; }
     .original { flex-shrink: 0; color: #688176; font-size: 12px; text-underline-offset: 4px; }
     iframe { display: block; border: 0; width: 100%; height: 570px; background: #f4f2e8; }
-    .test:last-child { grid-column: 1 / -1; }
-    .test:last-child iframe { height: 900px; }
     .note { margin: 28px 0 0; color: #7b8b7f; font-size: 12px; line-height: 1.8; text-align: center; }
     @media (max-width: 1000px) {
       main { padding: 40px 20px 24px; }
-      .tests { grid-template-columns: 1fr; gap: 22px; }
-      iframe, .test:last-child iframe { height: 740px; }
+      .tests { gap: 18px; }
     }
     @media (max-width: 600px) {
       main { padding: 30px 12px 24px; }
       nav { margin-bottom: 26px; }
       nav a { padding: 8px 14px; }
-      .test-header { padding: 18px 15px; }
+      .tests { gap: 10px; }
+      .test-header { padding: 14px 10px; flex-wrap: wrap; gap: 8px; }
       .test-heading { gap: 8px; }
       h2 { font-size: 17px; }
-      h2 span { margin-left: 5px; font-size: 11px; }
-      iframe, .test:last-child iframe { height: 510px; }
+      h2 span { display: block; margin: 4px 0 0; font-size: 11px; }
+      iframe { height: 420px; }
     }
   </style>
 </head>
@@ -53,32 +51,28 @@
       <h1>6.1-sol-不同思考等级鹈鹕测试</h1>
       <p class="subtitle">6Astra五分之一的价格无线逼近 Astra</p>
       <nav aria-label="跳转到不同思考等级">
-        <a href="#low">Low</a><a href="#mid">Mid</a><a href="#high">High</a><a href="#xhigh">Xhigh</a><a href="#max">Max</a>
+        <a href="#mid">Mid</a><a href="#high">High</a><a href="#xhigh">Xhigh</a><a href="#max">Max</a>
       </nav>
     </header>
     <div class="tests">
-      <section class="test" id="low" aria-labelledby="low-title">
-        <header class="test-header"><div class="test-heading"><span class="number">01</span><h2 id="low-title">Low <span>低思考等级测试</span></h2></div><a class="original" href="6.1sol-low.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <iframe src="6.1sol-low.html" title="6.1-sol Low 低思考等级鹈鹕测试"></iframe>
-      </section>
       <section class="test" id="mid" aria-labelledby="mid-title">
-        <header class="test-header"><div class="test-heading"><span class="number">02</span><h2 id="mid-title">Mid <span>中思考等级测试</span></h2></div><a class="original" href="6.1sol-mid.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
+        <header class="test-header"><div class="test-heading"><span class="number">01</span><h2 id="mid-title">Mid <span>中思考等级测试</span></h2></div><a class="original" href="6.1sol-mid.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
         <iframe src="6.1sol-mid.html" title="6.1-sol Mid 中思考等级鹈鹕测试"></iframe>
       </section>
       <section class="test" id="high" aria-labelledby="high-title">
-        <header class="test-header"><div class="test-heading"><span class="number">03</span><h2 id="high-title">High <span>高思考等级测试</span></h2></div><a class="original" href="6.1sol-high.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
+        <header class="test-header"><div class="test-heading"><span class="number">02</span><h2 id="high-title">High <span>高思考等级测试</span></h2></div><a class="original" href="6.1sol-high.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
         <iframe src="6.1sol-high.html" title="6.1-sol High 高思考等级鹈鹕测试"></iframe>
       </section>
       <section class="test" id="xhigh" aria-labelledby="xhigh-title">
-        <header class="test-header"><div class="test-heading"><span class="number">04</span><h2 id="xhigh-title">Xhigh <span>超高思考等级测试</span></h2></div><a class="original" href="6.1sol-xhigh.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
+        <header class="test-header"><div class="test-heading"><span class="number">03</span><h2 id="xhigh-title">Xhigh <span>超高思考等级测试</span></h2></div><a class="original" href="6.1sol-xhigh.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
         <iframe src="6.1sol-xhigh.html" title="6.1-sol Xhigh 超高思考等级鹈鹕测试"></iframe>
       </section>
       <section class="test" id="max" aria-labelledby="max-title">
-        <header class="test-header"><div class="test-heading"><span class="number">05</span><h2 id="max-title">Max <span>最高思考等级测试</span></h2></div><a class="original" href="6.1sol-max.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
+        <header class="test-header"><div class="test-heading"><span class="number">04</span><h2 id="max-title">Max <span>最高思考等级测试</span></h2></div><a class="original" href="6.1sol-max.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
         <iframe src="6.1sol-max.html" title="6.1-sol Max 最高思考等级鹈鹕测试"></iframe>
       </section>
     </div>
-    <p class="note">五个思考等级 · 原始测试完整展示 · 每份测试可独立操作</p>
+    <p class="note">四个思考等级 · 原始测试完整展示 · 每份测试可独立操作</p>
   </main>
 </body>
 </html>
