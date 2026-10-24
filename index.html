@@ -1,92 +1,133 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f3f2eb">
-  <title>6.1-sol-不同思考等级鹈鹕测试</title>
-  <style>
-    :root { color-scheme: light; font-family: system-ui, -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; color: #254844; background: #e6e8df; }
-    * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100svh; display: grid; place-items: center; }
-    main { width: min(100vw, 133.333svh); height: min(100svh, 75vw); padding: 14px; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 10px; background: #f3f2eb; }
-    h1 { margin: 0 0 8px; font-size: clamp(18px, 2.7vw, 38px); font-weight: 750; letter-spacing: -.03em; line-height: 1.2; text-align: center; }
-    .subtitle { margin: 0; padding: 9px 12px; border-radius: 10px; background: #254844; color: #fff7de; font-size: clamp(16px, 2.5vw, 34px); font-weight: 750; line-height: 1.25; text-align: center; }
-    .subtitle strong { color: #ffd276; }
-    a:focus-visible { outline: 3px solid #cf7853; outline-offset: 2px; }
-    .tests { min-height: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 10px; }
-    .test { min-width: 0; min-height: 0; overflow: hidden; border: 1px solid #d5ddcf; border-radius: 12px; background: #f4f2e8; display: grid; grid-template-rows: auto minmax(0, 1fr); }
-    .test-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 7px 12px; border-bottom: 1px solid #dfe4d7; background: #fafaf5; }
-    .test-heading { display: flex; align-items: center; gap: 8px; }
-    .number { color: #849388; font-size: 11px; font-variant-numeric: tabular-nums; }
-    h2 { margin: 0; font-size: 17px; font-weight: 700; }
-    h2 span { margin-left: 6px; font-size: 11px; color: #6d8075; font-weight: 400; }
-    .original { flex-shrink: 0; color: #688176; font-size: 11px; text-underline-offset: 3px; }
-    .stage { position: relative; min-height: 0; overflow: hidden; }
-    .crop { position: absolute; top: 50%; left: 50%; overflow: hidden; transform: translate(-50%, -50%); }
-    iframe { position: absolute; top: 0; left: 0; display: block; border: 0; width: 1000px; height: 850px; transform-origin: top left; background: #f4f2e8; }
-    .note { margin: 0; color: #7b8b7f; font-size: 10px; line-height: 1.2; text-align: center; }
-    @media (max-width: 600px) {
-      main { padding: 6px; gap: 5px; }
-      h1 { margin-bottom: 4px; }
-      .subtitle { padding: 5px; border-radius: 6px; }
-      .tests { gap: 5px; }
-      .test-header { padding: 4px 6px; }
-      .number, h2 span { display: none; }
-      h2 { font-size: 12px; }
-      .original { font-size: 9px; }
-      .note { font-size: 8px; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>鹈鹕的骑行时光</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#1c2b28;font-family:"PingFang SC","Microsoft YaHei",sans-serif;padding:24px}
+  .frame{width:min(1200px,100%);background:#eaf3e8;border-radius:18px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.5);border:6px solid #0f1b19}
+  .scene{display:block;width:100%;height:auto}
+  .caption{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;background:#0f1b19;color:#cfe6d6;font-size:14px;letter-spacing:.08em}
+  .dot{width:10px;height:10px;border-radius:50%;background:#ff7a5c;display:inline-block;margin-right:8px;animation:blink 1.2s infinite}
+  @keyframes blink{50%{opacity:.25}}
+</style>
 </head>
 <body>
-  <main>
-    <header>
-      <h1>6.1-sol-不同思考等级鹈鹕测试</h1>
-      <p class="subtitle">6Astra<strong>五分之一的价格</strong>无限逼近 Astra</p>
-    </header>
-    <div class="tests">
-      <section class="test" id="mid" aria-labelledby="mid-title">
-        <header class="test-header"><div class="test-heading"><span class="number">01</span><h2 id="mid-title">Mid <span>中思考等级测试</span></h2></div><a class="original" href="6.1sol-mid.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <div class="stage"><div class="crop"><iframe src="6.1sol-mid.html" title="6.1-sol Mid 中思考等级鹈鹕测试"></iframe></div></div>
-      </section>
-      <section class="test" id="high" aria-labelledby="high-title">
-        <header class="test-header"><div class="test-heading"><span class="number">02</span><h2 id="high-title">High <span>高思考等级测试</span></h2></div><a class="original" href="6.1sol-high.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <div class="stage"><div class="crop"><iframe src="6.1sol-high.html" title="6.1-sol High 高思考等级鹈鹕测试"></iframe></div></div>
-      </section>
-      <section class="test" id="xhigh" aria-labelledby="xhigh-title">
-        <header class="test-header"><div class="test-heading"><span class="number">03</span><h2 id="xhigh-title">Xhigh <span>超高思考等级测试</span></h2></div><a class="original" href="6.1sol-xhigh.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <div class="stage"><div class="crop"><iframe src="6.1sol-xhigh.html" title="6.1-sol Xhigh 超高思考等级鹈鹕测试"></iframe></div></div>
-      </section>
-      <section class="test" id="max" aria-labelledby="max-title">
-        <header class="test-header"><div class="test-heading"><span class="number">04</span><h2 id="max-title">Max <span>最高思考等级测试</span></h2></div><a class="original" href="6.1sol-max.html" target="_blank" rel="noopener">独立查看 ↗</a></header>
-        <div class="stage"><div class="crop"><iframe src="6.1sol-max.html" title="6.1-sol Max 最高思考等级鹈鹕测试"></iframe></div></div>
-      </section>
-    </div>
-    <p class="note">四个思考等级 · 原始动画画面对比</p>
-  </main>
-  <script>
-    // 仅在汇总页裁切、缩放嵌入窗口，不修改原始测试文档。
-    function fitScene(stage) {
-      const frame = stage.querySelector('iframe');
-      const scene = frame.contentDocument?.querySelector('.scene, .picture');
-      if (!scene) return;
-      const rect = scene.getBoundingClientRect();
-      const scale = Math.min(stage.clientWidth / rect.width, stage.clientHeight / rect.height);
-      const crop = stage.querySelector('.crop');
-      crop.style.width = `${rect.width * scale}px`;
-      crop.style.height = `${rect.height * scale}px`;
-      frame.style.transform = `scale(${scale})`;
-      frame.style.left = `${-rect.left * scale}px`;
-      frame.style.top = `${-rect.top * scale}px`;
-    }
-    const observer = new ResizeObserver(entries => {
-      entries.forEach(({ target }) => fitScene(target));
-    });
-    document.querySelectorAll('.stage').forEach(stage => {
-      stage.querySelector('iframe').addEventListener('load', () => fitScene(stage));
-      observer.observe(stage);
-    });
-  </script>
+<div class="frame">
+<svg class="scene" viewBox="0 0 1200 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="sceneTitle sceneDesc">
+<title id="sceneTitle">鹈鹕的骑行时光</title>
+<desc id="sceneDesc">一只白色鹈鹕踩着绿色自行车沿海岸前进，车轮转动，脚蹼踩踏，围巾飘动。</desc>
+<defs>
+<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#bfe8e4"/><stop offset=".6" stop-color="#e6f3e3"/><stop offset="1" stop-color="#fdf6da"/>
+</linearGradient>
+<linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#8ecfc0"/><stop offset="1" stop-color="#d9eee3"/>
+</linearGradient>
+<linearGradient id="pouch" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#f7c568"/><stop offset="1" stop-color="#ee9c54"/>
+</linearGradient>
+<pattern id="roadPat" width="240" height="100" patternUnits="userSpaceOnUse">
+<rect width="240" height="100" fill="#4a5a55"/>
+<path d="M30 52h74" stroke="#edf7ee" stroke-width="5" stroke-linecap="round"/>
+</pattern>
+<g id="cloud" fill="#fbfff9">
+<path d="M0 32C-1 19 13 11 26 15C31-5 62-4 70 15C91 9 110 20 108 32Z"/>
+</g>
+<g id="wheel">
+<circle r="81" fill="#223231" stroke="#1a2725" stroke-width="6"/>
+<circle r="68" fill="none" stroke="#eef4e4" stroke-width="4"/>
+<g stroke="#9fbdb1" stroke-width="2.5">
+<path d="M-64 0H64M0-64V64M-45-45l90 90M-45 45l90-90"/>
+<path d="M-60-25L60 25M-25-60L25 60M-60 25L60-25M-25 60L25-60"/>
+</g>
+<circle r="40" fill="none" stroke="#4f9f89" stroke-width="6"/>
+<circle r="10" fill="#f4cf81" stroke="#1a2725" stroke-width="3"/>
+</g>
+</defs>
+
+<rect width="1200" height="360" fill="url(#sky)"/>
+<circle cx="923" cy="126" r="53" fill="#f2a586"/>
+<circle cx="923" cy="126" r="72" fill="#f2a586" opacity=".25"/>
+<g opacity=".95">
+<use href="#cloud" x="135" y="118"><animateTransform attributeName="transform" type="translate" from="0 0" to="-200 0" dur="28s" repeatCount="indefinite"/></use>
+<use href="#cloud" x="650" y="80" transform="scale(.72)"><animateTransform attributeName="transform" type="translate" additive="sum" from="0 0" to="-260 0" dur="36s" repeatCount="indefinite"/></use>
+<use href="#cloud" x="980" y="190" transform="scale(.8)"><animateTransform attributeName="transform" type="translate" additive="sum" from="0 0" to="-300 0" dur="24s" repeatCount="indefinite"/></use>
+</g>
+
+<path d="M0 329Q112 306 230 330T470 326T720 331T960 322T1200 332V515H0Z" fill="url(#sea)"/>
+<path d="M0 343Q102 335 191 346M808 355h102M963 377h162M57 404h128M227 375h65" fill="none" stroke="#effff0" stroke-width="3" stroke-linecap="round"/>
+<path d="M0 451Q192 423 376 449T720 448T1200 433V537H0Z" fill="#a9c8a1"/>
+<path d="M0 478Q236 459 422 477T812 475T1200 467V548H0Z" fill="#7fa78c"/>
+<path d="M0 521H1200V700H0Z" fill="#c3d9c8"/>
+<path d="M0 521H1200" stroke="#eff4dc" stroke-width="7"/>
+<rect x="-240" y="550" width="1680" height="100" fill="url(#roadPat)">
+<animateTransform attributeName="transform" type="translate" from="0 0" to="240 0" dur="1.2s" repeatCount="indefinite"/>
+</rect>
+
+<ellipse cx="602" cy="620" rx="230" ry="16" fill="#2a4a42" opacity=".18"/>
+
+<g>
+<g transform="translate(449 540)">
+<g><animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1.2s" repeatCount="indefinite"/><use href="#wheel"/></g>
+</g>
+<g transform="translate(755 540)">
+<g><animateTransform attributeName="transform" type="rotate" from="0" to="-360" dur="1.2s" repeatCount="indefinite"/><use href="#wheel"/></g>
+</g>
+
+<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+<path d="M449 540L519 420L583 540H449L691 418L583 540M519 420L691 418M691 418L755 540" stroke="#234e48" stroke-width="12"/>
+<path d="M449 540L519 420L583 540M519 420L691 418M691 418L755 540" stroke="#4f9f89" stroke-width="7"/>
+<path d="M519 420L510 394" stroke="#365d52" stroke-width="9"/>
+<path d="M690 419L674 372L702 354" stroke="#365d52" stroke-width="8"/>
+<path d="M702 354H727Q741 354 739 366" stroke="#294b45" stroke-width="10"/>
+</g>
+
+<g>
+<animateTransform attributeName="transform" type="translate" values="0 0;0 -8;0 0" keyTimes="0;.5;1" dur="0.6s" repeatCount="indefinite"/>
+<!-- far leg -->
+<g opacity=".75">
+<path d="M527 387L600 410L588 495" fill="none" stroke="#c3813d" stroke-width="11" stroke-linecap="round" stroke-linejoin="round"/>
+<ellipse cx="595" cy="500" rx="20" ry="8" fill="#d99443" stroke="#986738" stroke-width="2"/>
+</g>
+<!-- near leg pedaling -->
+<g>
+<path d="M546 387L598 450L580 520" fill="none" stroke="#edb34e" stroke-width="13" stroke-linecap="round" stroke-linejoin="round">
+<animate attributeName="d" values="M546 387L610 420L595 485;M546 387L585 455L565 555;M546 387L610 420L595 485;M546 387L585 455L565 555" keyTimes="0;.25;.5;.75" dur="1.2s" repeatCount="indefinite"/>
+</path>
+<path d="M567 514Q585 516 599 519L604 526L567 525Z" fill="#f2bd59" stroke="#a4793e" stroke-width="2.5">
+<animateTransform attributeName="transform" type="translate" values="0 -30;0 30;0 -30;0 30" keyTimes="0;.25;.5;.75" dur="1.2s" repeatCount="indefinite"/>
+</path>
+</g>
+<!-- crank -->
+<g transform="translate(583 540)">
+<g><animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="1.2s" repeatCount="indefinite"/>
+<path d="M-32 0H32" stroke="#2b4a42" stroke-width="7" stroke-linecap="round"/>
+<rect x="18" y="-5" width="30" height="10" rx="3" fill="#edbc61" stroke="#234e48" stroke-width="2"/>
+<rect x="-48" y="-5" width="30" height="10" rx="3" fill="#edbc61" stroke="#234e48" stroke-width="2"/>
+</g>
+<circle r="24" fill="#f3e7bb" stroke="#34594e" stroke-width="4"/>
+</g>
+<!-- body -->
+<path d="M487 346Q453 342 442 317Q471 320 500 333" fill="#f9fbef" stroke="#52736a" stroke-width="3" stroke-linejoin="round"/>
+<path d="M489 320C515 298 560 300 585 327C603 343 604 374 581 391C558 411 506 404 484 385C464 369 468 340 489 320Z" fill="#fbfcf1" stroke="#52736a" stroke-width="3"/>
+<path d="M479 367Q508 396 555 387Q579 382 590 369Q590 395 556 402Q507 410 483 386Z" fill="#dce8dc"/>
+<path d="M555 351C594 330 588 301 586 274C581 246 591 220 610 214C629 207 645 220 644 238C643 256 626 266 625 285C624 318 651 342 627 367C612 382 585 385 568 374" fill="#fbfcf1" stroke="#52736a" stroke-width="3" stroke-linecap="round"/>
+<path id="scarf" d="M610 301C575 299 565 285 532 293L544 304L535 316C568 305 581 322 616 312Z" fill="#df755c">
+<animate attributeName="d" values="M610 301C575 299 565 285 532 293L544 304L535 316C568 305 581 322 616 312Z;M610 301C572 295 560 278 525 288L540 298L530 310C565 300 580 320 616 312Z;M610 301C575 299 565 285 532 293L544 304L535 316C568 305 581 322 616 312Z" dur="0.9s" repeatCount="indefinite"/>
+</path>
+<path d="M589 297Q607 307 627 294L631 307Q608 320 590 309Z" fill="#e98567" stroke="#bf624e" stroke-width="2"/>
+<path d="M587 236C581 214 592 193 612 192C635 190 649 204 646 226L637 247L611 253Z" fill="#fbfcf1" stroke="#52736a" stroke-width="3"/>
+<path d="M638 228L760 241C745 257 699 284 673 274C653 267 646 250 638 228Z" fill="url(#pouch)" stroke="#b57e40" stroke-width="2.5" stroke-linejoin="round"/>
+<path d="M640 220Q694 221 767 239Q774 242 768 245L639 237Z" fill="#f6ce71" stroke="#a57b40" stroke-width="2.5" stroke-linejoin="round"/>
+<ellipse cx="625" cy="215" rx="10" ry="11" fill="#e8e9ce"/><circle cx="628" cy="216" r="5" fill="#294940"/><circle cx="629.5" cy="214.5" r="1.6" fill="#fff"/>
+<path d="M514 331C540 316 567 331 589 347L650 359Q675 361 695 353Q705 353 705 360Q692 372 671 376L590 373C560 382 533 368 516 353" fill="#eef3e7" stroke="#52736a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+</svg>
+<div class="caption"><span><span class="dot"></span>COASTAL RIDE · 2D SVG ANIMATION</span><span>pedal · roll · flutter — pure SMIL</span></div>
+</div>
 </body>
 </html>
