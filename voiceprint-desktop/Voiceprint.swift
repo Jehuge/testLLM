@@ -77,6 +77,7 @@ func runComparison(a: URL, b: URL) throws -> Comparison {
     @Published var threshold: Double = 0.6
     @Published var playing: Int?
     @Published var finalizing = false
+    @Published var showDetails = false
     var changedRecording: ((Bool) -> Void)?
     private let capture = AudioCapture()
     private var timer: Timer?
@@ -272,12 +273,12 @@ struct MeterView: View {
             HStack(alignment: .center, spacing: 3) {
                 ForEach(0..<55, id: \.self) { i in
                     let shape = (sin(Double(i) * 1.8) + cos(Double(i) * 0.43) + 2) / 4
-                    let height = live ? 5 + Double(level) * (10 + shape * 33) : 4 + shape * 8
+                    let height = live ? 3 + Double(level) * (4 + shape * 13) : 4 + shape * 8
                     Capsule().fill(live ? Color(red: 0.92, green: 0.33, blue: 0.38) : accent.opacity(0.2))
                         .frame(width: max(2, (geometry.size.width - 162) / 55), height: height)
                 }
             }.frame(maxWidth: .infinity, maxHeight: .infinity)
-        }.frame(height: 42).animation(.easeOut(duration: 0.12), value: level)
+        }.frame(height: 22).animation(.easeOut(duration: 0.12), value: level)
         .accessibilityLabel(live ? "实时录音音量" : "音频预览区域")
     }
 }
@@ -288,11 +289,11 @@ struct ClipCard: View {
     var recording: Bool { state.active == index }
     var clip: Clip? { state.clips[index] }
     var body: some View {
-        VStack(alignment: .leading, spacing: 12) {
+        VStack(alignment: .leading, spacing: 8) {
             HStack {
                 Text(index == 0 ? "A" : "B").font(.system(size: 14, weight: .bold, design: .rounded))
-                    .foregroundStyle(accent).frame(width: 28, height: 28).background(accent.opacity(0.09), in: RoundedRectangle(cornerRadius: 8))
-                Text(index == 0 ? "参考录音" : "待比对录音").font(.system(size: 14, weight: .semibold))
+                    .foregroundStyle(accent).frame(width: 24, height: 24).background(accent.opacity(0.09), in: RoundedRectangle(cornerRadius: 7))
+                Text(index == 0 ? "参考录音" : "待比对录音").font(.system(size: 13, weight: .semibold))
                 Spacer()
                 if recording {
                     Circle().fill(.red).frame(width: 6, height: 6)
@@ -305,7 +306,7 @@ struct ClipCard: View {
             HStack {
                 Picker("录音来源", selection: $state.sources[index]) {
                     ForEach(AudioSource.allCases) { source in Label(source.rawValue, systemImage: source.symbol).tag(source) }
-                }.pickerStyle(.segmented).labelsHidden().frame(width: 222).disabled(state.locked)
+                }.pickerStyle(.segmented).labelsHidden().frame(width: 190).disabled(state.locked)
                 Spacer()
                 if clip != nil && !state.locked {
                     Button { state.play(index) } label: {
@@ -315,26 +316,26 @@ struct ClipCard: View {
                         .buttonStyle(.plain).foregroundStyle(muted).padding(.leading, 8).help("清除录音")
                 }
             }
-            MeterView(live: recording, level: recording ? state.level : 0)
-            HStack(spacing: 10) {
+            if recording { MeterView(live: true, level: state.level) }
+            HStack(spacing: 8) {
                 Button { state.record(index) } label: {
                     HStack(spacing: 6) {
                         if state.pending == index || (recording && state.finalizing) {
                             ProgressView().controlSize(.mini)
                         } else { Image(systemName: recording ? "stop.fill" : "record.circle") }
                         Text(state.pending == index ? "正在获取权限…" : (recording ? (state.finalizing ? "正在保存…" : "停止录音") : (clip == nil ? "开始录音" : "重新录音")))
-                    }.font(.system(size: 12, weight: .medium)).padding(.horizontal, 13).frame(height: 31)
+                    }.font(.system(size: 12, weight: .medium)).padding(.horizontal, 10).frame(height: 28)
                     .foregroundStyle(recording ? Color.red : accent)
                     .background(recording ? Color.red.opacity(0.08) : accent.opacity(0.08), in: RoundedRectangle(cornerRadius: 8))
                 }.buttonStyle(.plain).disabled(state.pending != nil || state.busy || state.finalizing || (state.active != nil && !recording))
                     .accessibilityLabel("\(recording ? "停止" : "录制")录音\(index == 0 ? "A" : "B")")
                 Button("导入音频") { state.importFile(index) }.buttonStyle(.plain).font(.system(size: 12)).foregroundStyle(muted).disabled(state.locked)
                 Spacer()
-                Text(recording ? "最多 45 秒 · 只录一人" : (clip?.label ?? "建议录制 5–15 秒清晰讲话"))
-                    .font(.system(size: 11)).foregroundStyle(muted).lineLimit(1).truncationMode(.middle)
+                Text(recording ? "最长 45 秒" : (clip?.label ?? "建议 5–15 秒"))
+                    .font(.system(size: 10)).foregroundStyle(muted).lineLimit(1).truncationMode(.middle)
             }
-        }.padding(17).background(.white, in: RoundedRectangle(cornerRadius: 16))
-            .overlay(RoundedRectangle(cornerRadius: 16).stroke(recording ? Color.red.opacity(0.4) : Color.black.opacity(0.06), lineWidth: 1))
+        }.padding(12).background(.white, in: RoundedRectangle(cornerRadius: 12))
+            .overlay(RoundedRectangle(cornerRadius: 12).stroke(recording ? Color.red.opacity(0.4) : Color.black.opacity(0.06), lineWidth: 1))
     }
 }
 
@@ -348,23 +349,20 @@ struct ContentView: View {
     }
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading, spacing: 16) {
-                HStack(spacing: 12) {
-                    WaveMark().scaleEffect(0.65).frame(width: 43, height: 43)
-                        .background(LinearGradient(colors: [accent, Color(red: 0.43, green: 0.34, blue: 0.92)], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 13))
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("声纹对比").font(.system(size: 23, weight: .bold))
-                        Text("听见声音，也识别声音。 ").font(.system(size: 11)).foregroundStyle(muted)
-                    }
+            VStack(alignment: .leading, spacing: 10) {
+                HStack(spacing: 10) {
+                    WaveMark().scaleEffect(0.5).frame(width: 32, height: 32)
+                        .background(LinearGradient(colors: [accent, Color(red: 0.43, green: 0.34, blue: 0.92)], startPoint: .topLeading, endPoint: .bottomTrailing), in: RoundedRectangle(cornerRadius: 10))
+                    Text("声纹对比").font(.system(size: 20, weight: .bold))
                     Spacer()
                     HStack(spacing: 5) { Circle().fill(Color.green).frame(width: 5, height: 5); Text("本地运行") }
-                        .font(.system(size: 10, weight: .medium)).foregroundStyle(muted).padding(8)
+                        .font(.system(size: 10, weight: .medium)).foregroundStyle(muted).padding(6)
                         .background(.white, in: Capsule())
                 }.padding(.top, 4)
                 HStack(spacing: 7) {
                     Image(systemName: "lock.shield").foregroundStyle(accent)
-                    Text("音频与声纹分析均留在这台 Mac，不上传云端。")
-                }.font(.system(size: 11)).foregroundStyle(muted)
+                    Text("音频与声纹分析仅在本机处理，不上传云端。")
+                }.font(.system(size: 10)).foregroundStyle(muted)
 
                 ClipCard(state: state, index: 0)
                 ClipCard(state: state, index: 1)
@@ -388,17 +386,17 @@ struct ContentView: View {
                         if state.busy { ProgressView().controlSize(.small).tint(.white) }
                         else { Image(systemName: "waveform.path") }
                         Text(state.busy ? "正在分析两段声纹…" : "开始声纹对比").font(.system(size: 14, weight: .semibold))
-                    }.frame(maxWidth: .infinity).frame(height: 45).foregroundStyle(.white)
+                    }.frame(maxWidth: .infinity).frame(height: 36).foregroundStyle(.white)
                         .background(state.canCompare || state.busy ? accent : accent.opacity(0.35), in: RoundedRectangle(cornerRadius: 12))
                 }.buttonStyle(.plain).disabled(!state.canCompare).keyboardShortcut(.return, modifiers: .command)
 
-                VStack(alignment: .leading, spacing: 10) {
+                VStack(alignment: .leading, spacing: 8) {
                     HStack {
                         Text(verdict).font(.system(size: 13, weight: .semibold))
                         Spacer()
                         if let score = state.result?.score {
-                            Text(String(format: "%.3f", score)).font(.system(size: 25, weight: .bold, design: .rounded)).foregroundStyle(accent)
-                        } else { Text("—").font(.system(size: 25)).foregroundStyle(muted) }
+                            Text(String(format: "%.3f", score)).font(.system(size: 22, weight: .bold, design: .rounded)).foregroundStyle(accent)
+                        } else { Text("—").font(.system(size: 22)).foregroundStyle(muted) }
                     }
                     GeometryReader { geometry in
                         ZStack(alignment: .leading) {
@@ -407,26 +405,30 @@ struct ContentView: View {
                             Rectangle().fill(ink.opacity(0.5)).frame(width: 2, height: 14).offset(x: geometry.size.width * state.threshold)
                         }
                     }.frame(height: 6)
-                    HStack {
-                        Text("判断阈值").font(.system(size: 10)).foregroundStyle(muted)
-                        Slider(value: $state.threshold, in: 0.3...0.85, step: 0.01).controlSize(.mini).tint(accent)
-                            .accessibilityLabel("判断阈值")
-                        Text(String(format: "%.2f", state.threshold)).font(.system(size: 10, design: .monospaced)).foregroundStyle(muted)
-                    }
-                    Text("相似度不是身份概率。噪声、多人混音与变声会影响结果；阈值需用实际录音校准。")
-                        .font(.system(size: 10)).foregroundStyle(muted).fixedSize(horizontal: false, vertical: true)
-                    if let elapsed = state.result?.elapsed {
-                        Text(String(format: "ERes2NetV2 · 本次分析 %.2f 秒", elapsed)).font(.system(size: 10)).foregroundStyle(muted)
-                    }
-                }.padding(16).background(.white.opacity(0.7), in: RoundedRectangle(cornerRadius: 14))
+                    DisclosureGroup("阈值与说明", isExpanded: $state.showDetails) {
+                        VStack(alignment: .leading, spacing: 7) {
+                            HStack {
+                                Text("判断阈值").font(.system(size: 10)).foregroundStyle(muted)
+                                Slider(value: $state.threshold, in: 0.3...0.85, step: 0.01).controlSize(.mini).tint(accent)
+                                    .accessibilityLabel("判断阈值")
+                                Text(String(format: "%.2f", state.threshold)).font(.system(size: 10, design: .monospaced)).foregroundStyle(muted)
+                            }
+                            Text("相似度不是身份概率。噪声、多人混音与变声会影响结果；阈值需用实际录音校准。")
+                                .font(.system(size: 10)).foregroundStyle(muted).fixedSize(horizontal: false, vertical: true)
+                            if let elapsed = state.result?.elapsed {
+                                Text(String(format: "ERes2NetV2 · 本次分析 %.2f 秒", elapsed)).font(.system(size: 10)).foregroundStyle(muted)
+                            }
+                        }.padding(.top, 6)
+                    }.font(.system(size: 10)).foregroundStyle(muted).tint(muted)
+                }.padding(12).background(.white.opacity(0.7), in: RoundedRectangle(cornerRadius: 12))
 
                 HStack {
                     Button { NSWorkspace.shared.open(state.storage) } label: { Label("录音文件夹", systemImage: "folder") }
                     Spacer()
                     Button("收起到悬浮球", action: collapse)
                 }.buttonStyle(.plain).font(.system(size: 11)).foregroundStyle(muted)
-            }.padding(24)
-        }.background(paper).foregroundStyle(ink).frame(minWidth: 560, minHeight: 670)
+            }.padding(16)
+        }.background(paper).foregroundStyle(ink).frame(minWidth: 410, minHeight: 500)
             .preferredColorScheme(.light)
     }
 }
@@ -508,7 +510,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
     func applicationDidFinishLaunching(_ notification: Notification) {
         state = AppState()
         NSApp.setActivationPolicy(.accessory)
-        panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 580, height: 780),
+        panel = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 430, height: 580),
                         styleMask: [.titled, .closable, .resizable, .fullSizeContentView], backing: .buffered, defer: false)
         panel.title = "声纹对比"
         panel.titleVisibility = .hidden
@@ -518,7 +520,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
         panel.level = .floating
         panel.collectionBehavior = [.canJoinAllSpaces, .fullScreenAuxiliary]
         panel.delegate = self
-        panel.minSize = NSSize(width: 560, height: 700)
+        panel.minSize = NSSize(width: 410, height: 530)
         panel.contentView = NSHostingView(rootView: ContentView(state: state, collapse: { [weak self] in self?.panel.orderOut(nil) }))
         panel.center()
         orb = NSPanel(contentRect: NSRect(x: 0, y: 0, width: 78, height: 78),
