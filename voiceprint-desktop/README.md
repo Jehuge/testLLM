@@ -65,6 +65,8 @@ swiftc -parse-as-library -swift-version 5 -target arm64-apple-macosx14.0 \
 
 启动桌面应用时可传入 `--show-panel` 打开面板；`--compare-files /absolute/a.wav /absolute/b.wav` 导入指定两段文件并分析，便于联调，不会启动录音。
 
-验证记录：音频输入边界检查 5 项通过；真实采集缓冲区转换到 CAF 的合成音频测试通过；已通过实际界面导入官方录音、同人对比（0.798）、异人对比（0.216）、悬浮球收起与打开。真实麦克风/电脑声音的端到端录制须在用户首次确认 macOS 权限后验证，开发检查未主动访问麦克风或授权屏幕录制。
+验证记录：音频输入边界检查 5 项通过；采集缓冲区转换到 CAF 的合成音频测试通过；已通过实际界面导入官方录音、同人对比（0.798）、异人对比（0.216）、悬浮球收起与打开。
+
+2026-10-24 授权问题修复验证：系统日志确认授权对应旧版签名。移除旧项、由用户重新确认当前版本授权后，已在实际界面完成电脑声音录制并保存 CAF（16kHz 单声道，录音总长 28.62 秒）。播放约 5 秒官方测试录音，实录经去除首尾静音后与原始文件的声纹相似度为 0.996789。当前应用签名保持不变，录屏与系统录音授权已生效。该测试验证采集链路，不代表模型业务准确率。
 
 上游：[sherpa-onnx](https://github.com/k2-fsa/sherpa-onnx)、[3D-Speaker](https://github.com/modelscope/3D-Speaker)、[官方 ONNX 模型下载](https://github.com/k2-fsa/sherpa-onnx/releases/tag/speaker-recongition-models)。模型 SHA-256 通过上游校验文件核对。分发或商业使用前需核对所选模型权重的许可。
