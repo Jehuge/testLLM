@@ -247,6 +247,10 @@ func runComparison(a: URL, b: URL) throws -> Comparison {
             NSWorkspace.shared.open(url)
         }
     }
+
+    func revealInstalledApp() {
+        NSWorkspace.shared.activateFileViewerSelecting([Bundle.main.bundleURL])
+    }
 }
 
 struct WaveMark: View {
@@ -371,6 +375,7 @@ struct ContentView: View {
                         HStack {
                             Button("麦克风权限") { state.showPermissions(.microphone) }
                             Button("系统音频权限") { state.showPermissions(.system) }
+                            Button("定位当前程序") { state.revealInstalledApp() }
                             Spacer()
                             Button("关闭提示") { state.error = nil }
                         }.font(.system(size: 10)).buttonStyle(.plain)

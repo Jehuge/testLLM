@@ -40,17 +40,24 @@ pathlib.Path(sys.argv[2]).write_text(json.dumps({
 PY
 swift "$ROOT/make-icon.swift" "$ROOT/build"
 iconutil -c icns "$ROOT/build/AppIcon.iconset" -o "$RESOURCES/AppIcon.icns"
-codesign --force --sign - --identifier local.jackjia.voiceprint "$APP"
+SIGNING_IDENTITY="${VOICEPRINT_SIGNING_IDENTITY:--}"
+codesign --force --sign "$SIGNING_IDENTITY" --identifier local.jackjia.voiceprint "$APP"
+NEW_HASH="$(codesign -d --verbose=2 "$APP" 2>&1 | sed -n 's/^CDHash=//p')"
 if [[ "${1:-}" == "--install" ]]; then
+  OLD_HASH=''
   if [[ -d "$DESTINATION" ]]; then
     EXISTING_ID=$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$DESTINATION/Contents/Info.plist" 2>/dev/null || true)
     if [[ "$EXISTING_ID" != 'local.jackjia.voiceprint' ]]; then
       echo '桌面上已有其他同名程序，请先为它改名。' >&2
       exit 1
     fi
+    OLD_HASH="$(codesign -d --verbose=2 "$DESTINATION" 2>&1 | sed -n 's/^CDHash=//p')"
   fi
   ditto "$APP" "$DESTINATION"
   echo "已安装：$DESTINATION"
+  if [[ "$SIGNING_IDENTITY" == '-' && -n "$OLD_HASH" && "$OLD_HASH" != "$NEW_HASH" ]]; then
+    echo '本地开发版本签名已更新。若录音权限的开关已开仍提示失败，请在系统设置中移除旧应用，再添加桌面上的当前版本。'
+  fi
 else
   echo "已构建：$APP"
 fi

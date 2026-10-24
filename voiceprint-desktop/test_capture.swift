@@ -3,9 +3,18 @@
 import Foundation
 import AVFoundation
 import CoreMedia
+import ScreenCaptureKit
 
 @main struct CapturePipelineTests {
     static func main() async throws {
+        let denied = NSError(domain: SCStreamErrorDomain, code: -3801)
+        let failed = NSError(domain: SCStreamErrorDomain, code: -3802)
+        guard CaptureErrorMessage.systemAudio(denied).contains("移除旧的"),
+              CaptureErrorMessage.systemAudio(failed).contains("不一定是权限问题"),
+              !CaptureErrorMessage.systemAudio(failed).contains("移除旧的") else {
+            throw UserError("录音错误分类不正确。")
+        }
+        print("通过：授权失效与其他采集错误分别给出正确处理提示")
         for channels in [1, 2] {
             let rate = channels == 1 ? 16000.0 : 48000.0
             let format = AVAudioFormat(standardFormatWithSampleRate: rate, channels: AVAudioChannelCount(channels))!

@@ -16,6 +16,16 @@ enum AudioSource: String, CaseIterable, Identifiable {
     var symbol: String { self == .microphone ? "mic.fill" : "speaker.wave.2.fill" }
 }
 
+enum CaptureErrorMessage {
+    static func systemAudio(_ error: Error) -> String {
+        let native = error as NSError
+        if native.domain == SCStreamErrorDomain && native.code == -3801 {
+            return "macOS 未认可当前版本的录音授权。如果设置里的开关已经打开，请先退出程序，在「系统设置 → 隐私与安全性 → 录屏与系统录音」中移除旧的“声纹对比.app”，再添加桌面上的当前程序，然后重新打开。更新本地开发版本后，旧授权可能仍指向上一个版本。"
+        }
+        return "电脑声音录制启动失败：\(error.localizedDescription)（错误码 \(native.code)）。这不一定是权限问题，请稍后重试。"
+    }
+}
+
 // Accessed by the audio callback queues and by the main thread on stop.
 final class AudioWriter {
     private let lock = NSLock()
@@ -120,11 +130,7 @@ final class AudioCapture: NSObject, SCStreamOutput, SCStreamDelegate {
             } catch {
                 self.stream = nil
                 self.writer = nil
-                let nativeError = error as NSError
-                if nativeError.domain == SCStreamErrorDomain && nativeError.code == -3801 {
-                    throw UserError("电脑声音录制权限尚未允许。请在「系统设置 → 隐私与安全性 → 屏幕与系统音频录制」中开启声纹对比，然后退出并重新打开程序。")
-                }
-                throw UserError("无法录制电脑声音：\(error.localizedDescription)\n请在「系统设置 → 隐私与安全性 → 屏幕与系统音频录制」中允许声纹对比；授权后可退出并重新打开程序。")
+                throw UserError(CaptureErrorMessage.systemAudio(error))
             }
         }
     }
