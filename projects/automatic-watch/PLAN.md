@@ -99,6 +99,6 @@
 
 - [Seiko 官方机械表原理](https://support.seiko.in/portal/en/kb/articles/mechanical-watches-automatic-and-winding)：发条储能、自动/手动上链，以及摆轮游丝和擒纵的作用。
 - [Rolex 官方自动上链原理](https://www.rolex.com/oyster-story/new-watchmaking-era/self-winding-mechanism)：摆陀将手腕运动传递到上链机构与发条。
-- [参考博主技术分析](./robot-vacuum-station-plan.md#12-参考博主的技术分析与本项目架构)：已核对作者声明与录屏画面；其源码未取得。
+- [参考博主技术分析](../robot-vacuum/PLAN.md#12-参考博主的技术分析与本项目架构)：已核对作者声明与录屏画面；其源码未取得。
 
 本规划尚未创建腕表应用源码。具体机芯形式、齿数与擒纵参数在结构白模阶段统一核定。
